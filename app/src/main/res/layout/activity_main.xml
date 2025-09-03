@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/fondo"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="TAREA: Armamos nuestro Tripulante"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Botón Reset (agregado) -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/btn_resetear"
+            android:text="Resetear (Quitar todo)"
+            android:textColor="#FBFBFB"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Personaje: base + 6 capas de prendas (inicialmente INVISIBLES) -->
+        <FrameLayout
+            android:id="@+id/flCharacter"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:layout_marginTop="12dp"
+            android:foregroundGravity="center">
+
+            <ImageView
+                android:id="@+id/ivBase"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/base_character" />
+
+            <ImageView
+                android:id="@+id/ivHat"
+                android:layout_width="150dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="110dp"
+                android:src="@drawable/hat"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/ivGlasses"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="120dp"
+                android:src="@drawable/glasses"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/ivShirt"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="120dp"
+                android:src="@drawable/shirt"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/ivPants"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="120dp"
+                android:src="@drawable/pants"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/ivShoes"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/shoes"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="200dp"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/ivCape"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="120dp"
+                android:src="@drawable/cape"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+        <!-- Inventario: 2 columnas x 3 filas (6 ítems) -->
+        <GridLayout
+            android:id="@+id/glInventory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:columnCount="2"
+            android:rowCount="3"
+            android:useDefaultMargins="true">
+
+            <!-- Sombrero -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="#FFE6F0FF"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#80000000"
+                android:layout_columnWeight="1">
+
+                <ImageView
+                    android:id="@+id/ivItemHat"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/hat" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnHat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_cargar"
+                    android:text="Cargar Chulo" />
+
+                <ProgressBar
+                    android:id="@+id/pbHat"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <!-- Botón Quitar (agregado) -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRemoveHat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_resetear"
+                    android:enabled="false"
+                    android:text="Quitar Chulo"
+                    android:textColor="#FFFBFB"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Gafas -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="#80000000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1">
+
+                <ImageView
+                    android:id="@+id/ivItemGlasses"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/glasses" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnGlasses"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/btn_cargar"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Cargar Gafas" />
+
+                <ProgressBar
+                    android:id="@+id/pbGlasses"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <!-- Botón Quitar (agregado) -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRemoveGlasses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Quitar Gafas"
+                    android:background="@drawable/btn_resetear"
+                    android:textColor="#FFFBFB"
+                    android:textStyle="bold"
+                    android:enabled="false" />
+            </LinearLayout>
+
+            <!-- Camisa -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="#80000000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1">
+
+                <ImageView
+                    android:id="@+id/ivItemShirt"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/shirt" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnShirt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_cargar"
+                    android:layout_marginTop="8dp"
+                    android:text="Cargar Camisa" />
+
+                <ProgressBar
+                    android:id="@+id/pbShirt"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <!-- Botón Quitar (agregado) -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRemoveShirt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_resetear"
+                    android:textColor="#FFFBFB"
+                    android:textStyle="bold"
+                    android:text="Quitar Camisa"
+                    android:enabled="false" />
+            </LinearLayout>
+
+            <!-- Traje -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="#80000000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1">
+
+                <ImageView
+                    android:id="@+id/ivItemPants"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/pants" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnPants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_cargar"
+                    android:text="Cargar Traje" />
+
+                <ProgressBar
+                    android:id="@+id/pbPants"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <!-- Botón Quitar (agregado) -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRemovePants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_resetear"
+                    android:textColor="#FFFBFB"
+                    android:textStyle="bold"
+                    android:text="Quitar Traje"
+                    android:enabled="false" />
+            </LinearLayout>
+
+            <!-- Mascota -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="#80000000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1">
+
+                <ImageView
+                    android:id="@+id/ivItemShoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/shoes" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnShoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_cargar"
+                    android:text="Cargar Mascota" />
+
+                <ProgressBar
+                    android:id="@+id/pbShoes"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <!-- Botón Quitar (agregado) -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRemoveShoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_resetear"
+                    android:textColor="#FFFBFB"
+                    android:textStyle="bold"
+                    android:text="Quitar_Traje"
+                    android:enabled="false" />
+            </LinearLayout>
+
+            <!-- casual -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="#80000000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1">
+
+                <ImageView
+                    android:id="@+id/ivItemCape"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/cape" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnCape"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_cargar"
+                    android:text="Cargar Casual" />
+
+                <ProgressBar
+                    android:id="@+id/pbCape"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <!-- Botón Quitar (agregado) -->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRemoveCape"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/btn_resetear"
+                    android:textColor="#FFFBFB"
+                    android:textStyle="bold"
+                    android:text="Quitar Casual"
+                    android:enabled="false" />
+            </LinearLayout>
+
+        </GridLayout>
+    </LinearLayout>
+</ScrollView>
