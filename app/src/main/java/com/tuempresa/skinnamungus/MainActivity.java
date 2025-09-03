@@ -68,72 +68,123 @@ public class MainActivity extends AppCompatActivity {
         // Reset
         btnReset = findViewById(R.id.btnReset);
 
-        // Listeners CARGAR (ahora pasan también el botón QUITAR)
-        btnHat.setOnClickListener(v -> descargarPrenda(btnHat, btnRemoveHat, pbHat, ivHat, "Sombrero"));
-        btnGlasses.setOnClickListener(v -> descargarPrenda(btnGlasses, btnRemoveGlasses, pbGlasses, ivGlasses, "Gafas"));
-        btnShirt.setOnClickListener(v -> descargarPrenda(btnShirt, btnRemoveShirt, pbShirt, ivShirt, "Camisa"));
-        btnPants.setOnClickListener(v -> descargarPrenda(btnPants, btnRemovePants, pbPants, ivPants, "Pantalón"));
-        btnShoes.setOnClickListener(v -> descargarPrenda(btnShoes, btnRemoveShoes, pbShoes, ivShoes, "Zapatos"));
-        btnCape.setOnClickListener(v -> descargarPrenda(btnCape, btnRemoveCape, pbCape, ivCape, "Capa"));
+        // Listeners CARGAR (con clases anónimas)
+        btnHat.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                descargarPrenda(btnHat, btnRemoveHat, pbHat, ivHat, "Sombrero");
+            }
+        });
+        btnGlasses.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                descargarPrenda(btnGlasses, btnRemoveGlasses, pbGlasses, ivGlasses, "Gafas");
+            }
+        });
+        btnShirt.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                descargarPrenda(btnShirt, btnRemoveShirt, pbShirt, ivShirt, "Camisa");
+            }
+        });
+        btnPants.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                descargarPrenda(btnPants, btnRemovePants, pbPants, ivPants, "Pantalón");
+            }
+        });
+        btnShoes.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                descargarPrenda(btnShoes, btnRemoveShoes, pbShoes, ivShoes, "Zapatos");
+            }
+        });
+        btnCape.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                descargarPrenda(btnCape, btnRemoveCape, pbCape, ivCape, "Capa");
+            }
+        });
 
         // Listeners QUITAR
-        btnRemoveHat.setOnClickListener(v -> quitarPrenda(btnHat, btnRemoveHat, pbHat, ivHat, "Sombrero"));
-        btnRemoveGlasses.setOnClickListener(v -> quitarPrenda(btnGlasses, btnRemoveGlasses, pbGlasses, ivGlasses, "Gafas"));
-        btnRemoveShirt.setOnClickListener(v -> quitarPrenda(btnShirt, btnRemoveShirt, pbShirt, ivShirt, "Camisa"));
-        btnRemovePants.setOnClickListener(v -> quitarPrenda(btnPants, btnRemovePants, pbPants, ivPants, "Pantalón"));
-        btnRemoveShoes.setOnClickListener(v -> quitarPrenda(btnShoes, btnRemoveShoes, pbShoes, ivShoes, "Zapatos"));
-        btnRemoveCape.setOnClickListener(v -> quitarPrenda(btnCape, btnRemoveCape, pbCape, ivCape, "Capa"));
+        btnRemoveHat.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                quitarPrenda(btnHat, btnRemoveHat, pbHat, ivHat, "Sombrero");
+            }
+        });
+        btnRemoveGlasses.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                quitarPrenda(btnGlasses, btnRemoveGlasses, pbGlasses, ivGlasses, "Gafas");
+            }
+        });
+        btnRemoveShirt.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                quitarPrenda(btnShirt, btnRemoveShirt, pbShirt, ivShirt, "Camisa");
+            }
+        });
+        btnRemovePants.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                quitarPrenda(btnPants, btnRemovePants, pbPants, ivPants, "Pantalón");
+            }
+        });
+        btnRemoveShoes.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                quitarPrenda(btnShoes, btnRemoveShoes, pbShoes, ivShoes, "Zapatos");
+            }
+        });
+        btnRemoveCape.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                quitarPrenda(btnCape, btnRemoveCape, pbCape, ivCape, "Capa");
+            }
+        });
 
         // Reset (quitar todo)
-        btnReset.setOnClickListener(v -> resetPersonaje());
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                resetPersonaje();
+            }
+        });
     }
 
     /**
      * Descarga simulada: muestra ProgressBar, corre Thread 10s.
      * Usa un "estado" con setTag para evitar aplicar si se canceló (quitar/reset) durante la espera.
      */
-    private void descargarPrenda(Button btnCargar, Button btnQuitar, ProgressBar pb, ImageView layer, String nombre) {
-        // Si ya está aplicada, no repetir
+    private void descargarPrenda(final Button btnCargar, final Button btnQuitar, final ProgressBar pb, final ImageView layer, final String nombre) {
         if (layer.getVisibility() == View.VISIBLE) {
             Toast.makeText(this, nombre + " ya aplicado", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Marcar como "corriendo" (para cancelación simple)
         layer.setTag("running");
 
         btnCargar.setEnabled(false);
         btnQuitar.setEnabled(false);
         pb.setVisibility(View.VISIBLE);
 
-        new Thread(() -> {
-            try {
-                Thread.sleep(DOWNLOAD_MS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            runOnUiThread(() -> {
-                // Si mientras tanto se quitó o reseteó, no apliques
-                Object tag = layer.getTag();
-                if (!(tag instanceof String) || !"running".equals(tag)) {
-                    // Asegura UI coherente
-                    pb.setVisibility(View.GONE);
-                    btnCargar.setEnabled(true);
-                    btnQuitar.setEnabled(false);
-                    return;
+        new Thread(new Runnable() {
+            @Override public void run() {
+                try {
+                    Thread.sleep(DOWNLOAD_MS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
-                pb.setVisibility(View.GONE);
-                layer.setVisibility(View.VISIBLE);
-                layer.setTag("applied"); // nuevo estado
+                runOnUiThread(new Runnable() {
+                    @Override public void run() {
+                        Object tag = layer.getTag();
+                        if (!(tag instanceof String) || !"running".equals(tag)) {
+                            pb.setVisibility(View.GONE);
+                            btnCargar.setEnabled(true);
+                            btnQuitar.setEnabled(false);
+                            return;
+                        }
 
-                // Habilita quitar; deshabilita cargar
-                btnQuitar.setEnabled(true);
-                btnCargar.setEnabled(false);
+                        pb.setVisibility(View.GONE);
+                        layer.setVisibility(View.VISIBLE);
+                        layer.setTag("applied");
 
-                Toast.makeText(this, nombre + " aplicado", Toast.LENGTH_SHORT).show();
-            });
+                        btnQuitar.setEnabled(true);
+                        btnCargar.setEnabled(false);
+
+                        Toast.makeText(MainActivity.this, nombre + " aplicado", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }).start();
     }
 
@@ -142,20 +193,16 @@ public class MainActivity extends AppCompatActivity {
      * oculta ProgressBar y habilita el botón Cargar.
      */
     private void quitarPrenda(Button btnCargar, Button btnQuitar, ProgressBar pb, ImageView layer, String nombre) {
-        // Marca como cancelado (cualquier descarga en curso quedará sin aplicar)
         layer.setTag("cancelled");
 
-        // Oculta prenda y ProgressBar
         layer.setVisibility(View.INVISIBLE);
         pb.setVisibility(View.GONE);
 
-        // Restablece transformaciones simples (por si escalaste/trasladaste)
         layer.setScaleX(1f);
         layer.setScaleY(1f);
         layer.setTranslationX(0f);
         layer.setTranslationY(0f);
 
-        // UI botones
         btnCargar.setEnabled(true);
         btnQuitar.setEnabled(false);
 
@@ -166,17 +213,11 @@ public class MainActivity extends AppCompatActivity {
      * Quita TODAS las prendas de una vez y restablece la UI.
      */
     private void resetPersonaje() {
-        // Sombrero
         quitarPrenda(btnHat, btnRemoveHat, pbHat, ivHat, "Sombrero");
-        // Gafas
         quitarPrenda(btnGlasses, btnRemoveGlasses, pbGlasses, ivGlasses, "Gafas");
-        // Camisa
         quitarPrenda(btnShirt, btnRemoveShirt, pbShirt, ivShirt, "Camisa");
-        // Pantalón
         quitarPrenda(btnPants, btnRemovePants, pbPants, ivPants, "Pantalón");
-        // Zapatos
         quitarPrenda(btnShoes, btnRemoveShoes, pbShoes, ivShoes, "Zapatos");
-        // Capa
         quitarPrenda(btnCape, btnRemoveCape, pbCape, ivCape, "Capa");
 
         Toast.makeText(this, "Se reseteó el personaje", Toast.LENGTH_SHORT).show();

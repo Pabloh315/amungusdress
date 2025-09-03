@@ -92,15 +92,7 @@
                 android:scaleType="fitCenter"
                 android:visibility="invisible" />
 
-            <ImageView
-                android:id="@+id/ivShoes"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/shoes"
-                android:adjustViewBounds="true"
-                android:layout_marginTop="200dp"
-                android:scaleType="fitCenter"
-                android:visibility="invisible" />
+
 
             <ImageView
                 android:id="@+id/ivCape"
@@ -110,6 +102,16 @@
                 android:layout_marginRight="60dp"
                 android:layout_marginLeft="120dp"
                 android:src="@drawable/cape"
+                android:scaleType="fitCenter"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/ivShoes"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/shoes"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="200dp"
                 android:scaleType="fitCenter"
                 android:visibility="invisible" />
         </FrameLayout>
